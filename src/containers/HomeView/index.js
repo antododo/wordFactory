@@ -9,6 +9,10 @@ import { styles } from './styles.scss';
 /* actions */
 import * as uiActionCreators from 'core/actions/actions-ui';
 
+// Components
+import AllWords from 'components/AllWords'
+import SubmitNewWord from 'components/SubmitNewWord'
+
 class HomeView extends Component {
   constructor(props) {
     super(props);
@@ -16,9 +20,11 @@ class HomeView extends Component {
 
   render() {
     return (
-      <div className={styles}>   
-        <div id="home-view">   
+      <div className={styles}>
+        <div id="home-view">
          Home View
+         <AllWords></AllWords>
+         <SubmitNewWord></SubmitNewWord>
         </div>
       </div>
     );
