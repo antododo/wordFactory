@@ -15,12 +15,13 @@ class AllWords extends Component {
     // for each word in words, return a <Word> component with props.word = word.word
     // this.props.words from redux store
     var wordsList = this.props.words.map(function(word,index){
-      return <Word key={index} word={word.word}></Word>;
+      return <Word key={index} word={word}></Word>;
     });
 
     return (
       <div className={styles}>
         <p>All worlds</p>
+        <p>Words count: {this.props.words.length}</p>
         {wordsList}
       </div>
     )

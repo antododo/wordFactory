@@ -1,4 +1,6 @@
 export const addWord = word => ({
   type: 'ADD_WORD',
-  word
+  text: word.text,
+  fontSize: word.fontSize,
+  fontColor: word.fontColor
 })

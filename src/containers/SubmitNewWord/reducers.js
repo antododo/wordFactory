@@ -4,7 +4,9 @@ const wordsReducer = (state = [], action) => {
     return [
       ...state,
       {
-        word: action.word
+        text: action.text,
+        fontSize: action.fontSize,
+        fontColor: action.fontColor
       }
     ]
   default:
