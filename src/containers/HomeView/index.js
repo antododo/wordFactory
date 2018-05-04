@@ -10,8 +10,8 @@ import { styles } from './styles.scss';
 import * as uiActionCreators from 'core/actions/actions-ui';
 
 // Components
-import AllWords from 'components/AllWords'
-import SubmitNewWord from 'components/SubmitNewWord'
+import AllWords from 'containers/AllWords'
+import SubmitNewWord from 'containers/SubmitNewWord'
 
 class HomeView extends Component {
   constructor(props) {
