@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { addWord} from './actions'
+import { addWord} from './actions';
+import { ChromePicker } from 'react-color';
 
 // styles
 import {styles} from './styles.scss';
@@ -14,9 +15,9 @@ class SubmitNewWord extends Component {
 
     //Setting State
     this.state = {
-      text: 'hello',
-      color: 'red',
-      size: 12
+      text: 'Word',
+      color: '#4a90e2',
+      size: 24
     }
 
     // Binding
@@ -37,9 +38,9 @@ class SubmitNewWord extends Component {
       size: event.target.value});
   }
 
-  handleChangeColor(event){
+  handleChangeColor(color){
     this.setState({
-      color: event.target.value});
+      color: color.hex});
   }
 
   // Dispatch the word
@@ -68,10 +69,10 @@ class SubmitNewWord extends Component {
             value={this.state.size}
             onChange={this.handleChangeSize}
           />
-          <input
-            type="text"
-            value={this.state.color}
-            onChange={this.handleChangeColor}
+          <ChromePicker
+            disableAlpha={true}
+            color={this.state.color}
+            onChangeComplete={this.handleChangeColor}
           />
           <button type="submit">Add Word </button>
         </form>
