@@ -9,7 +9,6 @@ import {styles} from './styles.scss';
 import { connect } from 'react-redux';
 
 class SubmitNewWord extends Component {
-
   constructor(props){
     super(props);
 
@@ -26,6 +25,10 @@ class SubmitNewWord extends Component {
     this.handleChangeSize = this.handleChangeSize.bind(this);
     this.handleChangeColor = this.handleChangeColor.bind(this);
   }
+  // 
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log('update');
+  // }
 
   // handle input in form field Add Word
   handleChangeText(event){
