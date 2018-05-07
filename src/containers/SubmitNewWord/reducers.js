@@ -6,7 +6,9 @@ const wordsReducer = (state = [], action) => {
       {
         text: action.text,
         fontSize: action.fontSize,
-        fontColor: action.fontColor
+        fontColor: action.fontColor,
+        time: action.time,
+        owner: action.owner
       }
     ]
   default:

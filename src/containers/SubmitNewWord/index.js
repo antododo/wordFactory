@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { addWord} from './actions';
 import { ChromePicker } from 'react-color';
+import moment from 'moment';
 
 // styles
 import {styles} from './styles.scss';
@@ -12,23 +13,22 @@ class SubmitNewWord extends Component {
   constructor(props){
     super(props);
 
-    //Setting State
+    // Setting default State
+    // used only in the form
     this.state = {
       text: 'Word',
       color: '#4a90e2',
-      size: 24
+      size: 24,
+      time: 0,
+      owner: 'me'
     }
 
     // Binding
-    this.DispatchAddWord = this.DispatchAddWord.bind(this);
+    this.dispatchAddWord = this.dispatchAddWord.bind(this);
     this.handleChangeText = this.handleChangeText.bind(this);
     this.handleChangeSize = this.handleChangeSize.bind(this);
     this.handleChangeColor = this.handleChangeColor.bind(this);
   }
-  // 
-  // componentDidUpdate(prevProps, prevState) {
-  //   console.log('update');
-  // }
 
   // handle input in form field Add Word
   handleChangeText(event){
@@ -46,13 +46,15 @@ class SubmitNewWord extends Component {
       color: color.hex});
   }
 
-  // Dispatch the word
-  DispatchAddWord(event){
+  // dispatch the word
+  dispatchAddWord(event){
     event.preventDefault();
     let word = {
       text: this.state.text,
       fontSize: this.state.size + 'px',
-      fontColor: this.state.color
+      fontColor: this.state.color,
+      time: moment().valueOf(),
+      owner: this.state.owner
     }
     this.props.dispatch(addWord(word));
   }
@@ -61,7 +63,7 @@ class SubmitNewWord extends Component {
     return (
       <div className={styles}>
         <p>SubmitNewWord</p>
-        <form onSubmit={this.DispatchAddWord}>
+        <form onSubmit={this.dispatchAddWord}>
           <input
             type="text"
             value={this.state.text}

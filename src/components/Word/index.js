@@ -47,7 +47,9 @@ Word.propTypes = {
   word: PropTypes.shape({
     text: PropTypes.string,
     fontSize: PropTypes.string,
-    fontColor: PropTypes.string
+    fontColor: PropTypes.string,
+    time: PropTypes.number,
+    owner: PropTypes.string
   })
 }
 
@@ -56,7 +58,9 @@ Word.defaultProps = {
   word: {
     text: 'undefined',
     fontSize: '12px',
-    fontColor: 'blue'
+    fontColor: 'blue',
+    time: 0,
+    owner: 'me'
   }
 };
 
