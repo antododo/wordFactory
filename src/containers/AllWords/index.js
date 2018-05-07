@@ -7,6 +7,9 @@ import {styles} from './styles.scss';
 // Components
 import Word from 'components/Word'
 
+//selectors
+import selectWords from 'containers/WordsFilters/selector'
+
 class AllWords extends Component {
 
 
@@ -31,7 +34,7 @@ class AllWords extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    words: state.words
+    words: selectWords(state.words,state.filters)
   }
 }
 
