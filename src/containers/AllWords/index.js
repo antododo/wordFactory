@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import {styles} from './styles.scss';
 
 // Components
-import Word from 'components/Word'
+import Word from './../../components/Word'
 
 //selectors
-import selectWords from 'containers/WordsFilters/selector'
+import selectWords from './../WordsFilters/selector'
 
 class AllWords extends Component {
 

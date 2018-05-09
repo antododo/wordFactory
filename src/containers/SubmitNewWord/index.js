@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { addWord} from './actions';
 import { ChromePicker } from 'react-color';
 import moment from 'moment';
+// Import for web3
+import getWeb3 from './../../utils/getWeb3'
+import WordFactory from './../../../build/contracts/WordFactory.json'
+import SimpleStorageContract from './../../../build/contracts/SimpleStorage.json'
+
 
 // styles
 import {styles} from './styles.scss';
@@ -20,7 +25,8 @@ class SubmitNewWord extends Component {
       color: '#4a90e2',
       size: 24,
       time: 0,
-      owner: 'me'
+      account: 'me',
+      storageValue: 0
     }
 
     // Binding
@@ -28,6 +34,82 @@ class SubmitNewWord extends Component {
     this.handleChangeText = this.handleChangeText.bind(this);
     this.handleChangeSize = this.handleChangeSize.bind(this);
     this.handleChangeColor = this.handleChangeColor.bind(this);
+  }
+
+  componentWillMount() {
+    // Get network provider and web3 instance.
+    // See utils/getWeb3 for more info.
+    getWeb3.then(results => {
+      this.setState({
+        web3: results.web3
+      })
+
+      //Instantiate contracts once web3 provided
+      this.instantiateContract()
+
+    })
+    .catch(()=>{
+      console.log('Error finding web3.')
+    })
+  }
+
+  //
+  // instantiateContract() {
+  //   console.log('initiate contract')
+  //
+  //   const contract = require('truffle-contract')
+  //   this.setState({
+  //     contracts: {
+  //       wordFactory: contract(WordFactory)
+  //     }
+  //   })
+  //   this.state.contracts.wordFactory.setProvider(this.state.web3.currentProvider);
+  //
+  //   // Get accounts.
+  //   this.state.web3.eth.getAccounts((error, accounts) => {
+  //     this.setState({
+  //       account: accounts[0]
+  //     });
+  //   })
+  // }
+
+  // EXEMPLE TRUFFLE
+  instantiateContract() {
+    /*
+     * SMART CONTRACT EXAMPLE
+     *
+     * Normally these functions would be called in the context of a
+     * state management library, but for convenience I've placed them here.
+     */
+
+    const contract = require('truffle-contract')
+    const simpleStorage = contract(SimpleStorageContract)
+    console.log(this.state.web3.currentProvider);
+    console.log(simpleStorage)
+    simpleStorage.setProvider(this.state.web3.currentProvider)
+    console.log(simpleStorage)
+
+    // Declaring this for later so we can chain functions on SimpleStorage.
+    var simpleStorageInstance
+
+    // Get accounts.
+    this.state.web3.eth.getAccounts((error, accounts) => {
+      console.log(accounts)
+      simpleStorage.deployed().then((instance) => {
+        console.log(instance)
+        simpleStorageInstance = instance
+        console.log(simpleStorageInstance)
+
+        // Stores a given value, 5 by default.
+        return simpleStorageInstance.set(5, {from: accounts[0]})
+      }).then((result) => {
+        // Get the value from the contract to prove it worked.
+        return simpleStorageInstance.get.call(accounts[0])
+      }).then((result) => {
+        // Update state with the result.
+        return this.setState({ storageValue: result.c[0] })
+      })
+    })
   }
 
   // handle input in form field Add Word
@@ -49,12 +131,24 @@ class SubmitNewWord extends Component {
   // dispatch the word
   dispatchAddWord(event){
     event.preventDefault();
+
+    // Web3
+    var wordFactoryInstance;
+    var account = this.state.account;
+    this.state.contracts.wordFactory.deployed().then((instance)=>{
+      wordFactoryInstance = instance;
+      return wordFactoryInstance.addWord('hello','blue',24, {from: account})
+    }).then((result)=>{
+      console.log(result);
+    })
+
+    // Local variables & state
     let word = {
       text: this.state.text,
       fontSize: this.state.size + 'px',
       fontColor: this.state.color,
       time: moment().valueOf(),
-      owner: this.state.owner
+      owner: this.state.account
     }
     this.props.dispatch(addWord(word));
   }
@@ -63,6 +157,8 @@ class SubmitNewWord extends Component {
     return (
       <div className={styles}>
         <p>SubmitNewWord</p>
+        <input
+        value={this.state.storageValue}/>
         <form onSubmit={this.dispatchAddWord}>
           <input
             type="text"

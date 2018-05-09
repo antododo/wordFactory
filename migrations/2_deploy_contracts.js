@@ -1,4 +1,7 @@
+var SimpleStorage = artifacts.require("./SimpleStorage.sol");
+var WordFactory = artifacts.require("./WordFactory.sol");
+
 module.exports = function(deployer) {
-  /* Deploy your contract here with the following command */
-  // deployer.deploy(YourContract);
+  deployer.deploy(SimpleStorage);
+  deployer.deploy(WordFactory);
 };
