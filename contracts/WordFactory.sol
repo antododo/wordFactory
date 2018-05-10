@@ -35,7 +35,7 @@ contract WordFactory is Ownable {
   // Get words by owner
   // Returning an array with words ID instead of an array of Word because
   // returning array of struct is currently experimental: 'pragma experimental ABIEncoderV2;'
-  function getWordByOwner(address _owner) public returns(uint[]) {
+  function getWordByOwner(address _owner) public view returns(uint[]) {
     uint[] memory result = new uint[](OwnerWordCount[_owner]);
     uint counter = 0;
     for(uint i = 0; i < words.length; i++) {
@@ -46,5 +46,4 @@ contract WordFactory is Ownable {
     }
     return result;
   }
-
 }
