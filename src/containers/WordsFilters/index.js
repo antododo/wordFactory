@@ -65,10 +65,10 @@ class WordsFilters extends React.Component {
         />
         <select>
           <option value="text">Text</option>
-          <option value= "color">Color</option>
-          <option value= "size">Size</option>
-          <option value= "owner">Owner</option>
-          <option value= "time">Time</option>
+          <option value="color">Color</option>
+          <option value="size">Size</option>
+          <option value="owner">Owner</option>
+          <option value="time">Time</option>
         </select>
       </div>
     )
