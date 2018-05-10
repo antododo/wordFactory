@@ -4,7 +4,7 @@ import { ChromePicker } from 'react-color';
 import moment from 'moment';
 // Import for web3
 import getWeb3 from './../../utils/getWeb3'
-import WordFactory from './../../../build/contracts/WordFactory.json'
+import WordFactoryContract from './../../../build/contracts/WordFactory.json'
 import SimpleStorageContract from './../../../build/contracts/SimpleStorage.json'
 
 
@@ -84,21 +84,15 @@ class SubmitNewWord extends Component {
 
     const contract = require('truffle-contract')
     const simpleStorage = contract(SimpleStorageContract)
-    console.log(this.state.web3.currentProvider);
-    console.log(simpleStorage)
     simpleStorage.setProvider(this.state.web3.currentProvider)
-    console.log(simpleStorage)
 
     // Declaring this for later so we can chain functions on SimpleStorage.
     var simpleStorageInstance
 
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
-      console.log(accounts)
       simpleStorage.deployed().then((instance) => {
-        console.log(instance)
         simpleStorageInstance = instance
-        console.log(simpleStorageInstance)
 
         // Stores a given value, 5 by default.
         return simpleStorageInstance.set(5, {from: accounts[0]})
@@ -107,7 +101,7 @@ class SubmitNewWord extends Component {
         return simpleStorageInstance.get.call(accounts[0])
       }).then((result) => {
         // Update state with the result.
-        return this.setState({ storageValue: result.c[0] })
+        return this.setState({ storageValue: result.c[0], account: accounts[0] })
       })
     })
   }
@@ -135,7 +129,11 @@ class SubmitNewWord extends Component {
     // Web3
     var wordFactoryInstance;
     var account = this.state.account;
-    this.state.contracts.wordFactory.deployed().then((instance)=>{
+    const contract = require('truffle-contract');
+    var wordFactory = contract(WordFactoryContract);
+    wordFactory.setProvider(this.state.web3.currentProvider);
+
+    wordFactory.deployed().then((instance)=>{
       wordFactoryInstance = instance;
       return wordFactoryInstance.addWord('hello','blue',24, {from: account})
     }).then((result)=>{
