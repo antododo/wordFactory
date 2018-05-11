@@ -5,7 +5,6 @@ import moment from 'moment';
 // Import for web3
 import getWeb3 from './../../utils/getWeb3'
 import WordFactoryContract from './../../../build/contracts/WordFactory.json'
-import SimpleStorageContract from './../../../build/contracts/SimpleStorage.json'
 
 
 // styles
@@ -39,6 +38,7 @@ class SubmitNewWord extends Component {
   componentWillMount() {
     // Get network provider and web3 instance.
     // See utils/getWeb3 for more info.
+    // TODO Remove getWeb3 from containers and put it on Redux store
     getWeb3.then(results => {
       this.setState({
         web3: results.web3
@@ -53,57 +53,13 @@ class SubmitNewWord extends Component {
     })
   }
 
-  //
-  // instantiateContract() {
-  //   console.log('initiate contract')
-  //
-  //   const contract = require('truffle-contract')
-  //   this.setState({
-  //     contracts: {
-  //       wordFactory: contract(WordFactory)
-  //     }
-  //   })
-  //   this.state.contracts.wordFactory.setProvider(this.state.web3.currentProvider);
-  //
-  //   // Get accounts.
-  //   this.state.web3.eth.getAccounts((error, accounts) => {
-  //     this.setState({
-  //       account: accounts[0]
-  //     });
-  //   })
-  // }
 
-  // EXEMPLE TRUFFLE
   instantiateContract() {
-    /*
-     * SMART CONTRACT EXAMPLE
-     *
-     * Normally these functions would be called in the context of a
-     * state management library, but for convenience I've placed them here.
-     */
-
-    const contract = require('truffle-contract')
-    const simpleStorage = contract(SimpleStorageContract)
-    simpleStorage.setProvider(this.state.web3.currentProvider)
-
-    // Declaring this for later so we can chain functions on SimpleStorage.
-    var simpleStorageInstance
-
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
-      simpleStorage.deployed().then((instance) => {
-        simpleStorageInstance = instance
-
-        // Stores a given value, 5 by default.
-        return simpleStorageInstance.set(5, {from: accounts[0]})
-      }).then((result) => {
-        // Get the value from the contract to prove it worked.
-        return simpleStorageInstance.get.call(accounts[0])
-      }).then((result) => {
         // Update state with the result.
-        return this.setState({ storageValue: result.c[0], account: accounts[0] })
+        return this.setState({account: accounts[0] })
       })
-    })
   }
 
   // handle input in form field Add Word
@@ -135,7 +91,12 @@ class SubmitNewWord extends Component {
 
     wordFactory.deployed().then((instance)=>{
       wordFactoryInstance = instance;
-      return wordFactoryInstance.addWord('hello','blue',24, {from: account})
+      return wordFactoryInstance.addWord(
+          this.state.text,
+          this.state.color,
+          this.state.size,
+          this.state.account,
+          {from: account})
     }).then((result)=>{
       console.log(result);
     })
@@ -155,8 +116,6 @@ class SubmitNewWord extends Component {
     return (
       <div className={styles}>
         <p>SubmitNewWord</p>
-        <input
-        value={this.state.storageValue}/>
         <form onSubmit={this.dispatchAddWord}>
           <input
             type="text"

@@ -11,6 +11,8 @@ const wordsReducer = (state = [], action) => {
         owner: action.owner
       }
     ]
+  case 'RESET_WORDS' :
+    return []
   default:
     return state
   }
