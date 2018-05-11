@@ -13,7 +13,7 @@ class WordsFilters extends React.Component {
     this.state = {
       text: '',
       size: 24,
-      color: '#4A90E2'
+      color: ''
     }
 
     // Binding

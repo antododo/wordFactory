@@ -1,7 +1,7 @@
 const filtersReducerDefaultState = {
   text: '',
-  color: '#4A90E2',
-  size: '24px',
+  color: '',
+  size: '',
   sortBy: 'text'
 }
 
