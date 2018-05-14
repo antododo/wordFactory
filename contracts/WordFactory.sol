@@ -28,6 +28,7 @@ contract WordFactory is Ownable {
     uint id = words.push(Word(msg.sender, _text, _color, _size, block.timestamp)) -1;
     WordToOwner[id] = msg.sender;
     NewWord(msg.sender, _text, _color, _size, block.timestamp);
+    // emit NewWord(msg.sender, _text, _color, _size, block.timestamp);
     OwnerWordCount[msg.sender]++;
   }
 
