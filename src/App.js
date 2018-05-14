@@ -9,7 +9,7 @@ import './App.css'
 
 // Components & containers
 import AllWords from './containers/AllWords'
-import SubmitNewWord from './containers/SubmitNewWord'
+import SubmitNewWord from './components/SubmitNewWord'
 import WordsFilters from './containers/WordsFilters'
 
 class App extends Component {

@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
-import { addWord} from './actions';
 import { ChromePicker } from 'react-color';
-import moment from 'moment';
 // Import for web3
 import getWeb3 from './../../utils/getWeb3'
 import WordFactoryContract from './../../../build/contracts/WordFactory.json'
 
-
 // styles
 import {styles} from './styles.scss';
-
-// import for Redux
-import { connect } from 'react-redux';
 
 class SubmitNewWord extends Component {
   constructor(props){
@@ -43,10 +37,8 @@ class SubmitNewWord extends Component {
       this.setState({
         web3: results.web3
       })
-
       //Instantiate contracts once web3 provided
       this.instantiateContract()
-
     })
     .catch(()=>{
       console.log('Error finding web3.')
@@ -88,7 +80,6 @@ class SubmitNewWord extends Component {
     const contract = require('truffle-contract');
     var wordFactory = contract(WordFactoryContract);
     wordFactory.setProvider(this.state.web3.currentProvider);
-
     wordFactory.deployed().then((instance)=>{
       wordFactoryInstance = instance;
       return wordFactoryInstance.addWord(
@@ -97,19 +88,7 @@ class SubmitNewWord extends Component {
           this.state.size,
           this.state.account,
           {from: account})
-    }).then((result)=>{
-      console.log(result);
     })
-
-    // Local variables & state
-    let word = {
-      text: this.state.text,
-      fontSize: this.state.size + 'px',
-      fontColor: this.state.color,
-      time: moment().valueOf(),
-      owner: this.state.account
-    }
-    this.props.dispatch(addWord(word));
   }
 
   render(){
@@ -137,13 +116,6 @@ class SubmitNewWord extends Component {
       </div>
     )
   }
-
 }
 
-const mapStateToProps = (state) => {
-  return {
-    words: state.words
-  }
-}
-
-export default connect(mapStateToProps)(SubmitNewWord)
+export default SubmitNewWord

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import getWeb3 from './../../utils/getWeb3'
 import WordFactoryContract from './../../../build/contracts/WordFactory.json'
 import { addWord, resetWord} from './actions';
+import moment from 'moment';
 
 
 // styles
@@ -19,8 +20,13 @@ class AllWords extends Component {
   constructor(props){
     super(props);
 
+    this.state = {
+      timer: moment()
+    }
+
     // Binding
     this.getBlockchainWords = this.getBlockchainWords.bind(this);
+    this.newWordListener = this.newWordListener.bind(this);
   }
 
   componentWillMount() {
@@ -36,14 +42,46 @@ class AllWords extends Component {
         this.setState({account: accounts[0]})
       })
 
+      this.newWordListener();
     })
     .catch(()=>{
       console.log('Error finding web3. - AllWords')
     })
+
   }
 
+  // Setting Up an Event listener
+  newWordListener(){
+
+  const contract = require('truffle-contract');
+  const wordFactory = contract(WordFactoryContract);
+  wordFactory.setProvider(this.state.web3.currentProvider);
+
+  var wordFactoryInstance;
+
+  wordFactory.deployed().then((instance)=>{
+    wordFactoryInstance = instance;
+    wordFactoryInstance.NewWord({},{fromBlock:'latest', toBlock: 'latest'}, (error,result)=>{
+      if(!error){
+        this.getBlockchainWords();
+      }
+      else {
+       console.log('event error is : ')
+       console.log(error);
+     }
+    });
+  })
+  }
+
+
+  // Update Words from Blockchain
   getBlockchainWords(){
-    console.log('Getting Blockchain Words');
+    // TODO Workaround because event is firing 2 times in a row?? Last 2 events firing.
+    // Adding a timer to not refresh to often
+    if (moment() < this.state.timer + 2000){return;} // if less then 2 sec, don't refresh, 'return' to quit
+    this.setState({timer: moment()}); // if more then 2 sec, refresh timer
+
+
     // Cleaning redux store
     this.props.dispatch(resetWord());
 
@@ -81,16 +119,12 @@ class AllWords extends Component {
     }
   }
 
-
-
   render(){
-
     // for each word in words, return a <Word> component with props.word = word.word
     // this.props.words from redux store
     var wordsList = this.props.words.map(function(word,index){
       return <Word key={index} word={word}></Word>;
     });
-
 
     return (
       <div className={styles}>
