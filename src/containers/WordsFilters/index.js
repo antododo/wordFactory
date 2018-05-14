@@ -44,25 +44,36 @@ class WordsFilters extends React.Component {
     return(
       <div className={styles}>
         <h1>Filters</h1>
-        <p>Text</p>
-        <input
-          type="text"
-          value={this.state.text}
-          onChange={this.handleChangeFilterText}
-        />
-        <p>Color</p>
-        <input
-          type="text"
-          value={this.state.color}
-          onChange={this.handleChangeFilterColor}
-        />
-        <p>Font Size</p>
-        <input
-          type="number"
-          min="0"
-          value={this.state.size}
-          onChange={this.handleChangeFilterSize}
-        />
+
+        <div className="pure-g">
+          <div className="pure-u-1-3">
+            <p>Text</p>
+            <input
+              type="text"
+              value={this.state.text}
+              onChange={this.handleChangeFilterText}
+            />
+          </div>
+          <div className="pure-u-1-3">
+            <p>Color</p>
+            <input
+              type="text"
+              value={this.state.color}
+              onChange={this.handleChangeFilterColor}
+            />
+          </div>
+          <div className="pure-u-1-3">
+            <p>Font Size</p>
+            <input
+              type="number"
+              min="0"
+              value={this.state.size}
+              onChange={this.handleChangeFilterSize}
+            />
+          </div>
+        </div>
+
+        {/* TODO Useless? */}
         <select>
           <option value="text">Text</option>
           <option value="color">Color</option>

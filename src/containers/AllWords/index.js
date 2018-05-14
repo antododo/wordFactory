@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import getWeb3 from './../../utils/getWeb3'
 import WordFactoryContract from './../../../build/contracts/WordFactory.json'
 import { addWord, resetWord} from './actions';
-import moment from 'moment';
 
 
 // styles
@@ -21,7 +20,7 @@ class AllWords extends Component {
     super(props);
 
     this.state = {
-      timer: moment()
+      timer: 0
     }
 
     // Binding
@@ -43,6 +42,8 @@ class AllWords extends Component {
       })
 
       this.newWordListener();
+      // Refresh automatically the words because it's emitting an event as soon
+      // as it's configured
     })
     .catch(()=>{
       console.log('Error finding web3. - AllWords')
@@ -78,8 +79,8 @@ class AllWords extends Component {
   getBlockchainWords(){
     // TODO Workaround because event is firing 2 times in a row?? Last 2 events firing.
     // Adding a timer to not refresh to often
-    if (moment() < this.state.timer + 2000){return;} // if less then 2 sec, don't refresh, 'return' to quit
-    this.setState({timer: moment()}); // if more then 2 sec, refresh timer
+    if (Date.now() < this.state.timer + 2000){return;} // if less then 2 sec, don't refresh, 'return' to quit
+    this.setState({timer: Date.now()}); // if more then 2 sec, refresh timer
 
 
     // Cleaning redux store
@@ -128,12 +129,13 @@ class AllWords extends Component {
 
     return (
       <div className={styles}>
-        <p>All Local words</p>
+        <h1>All Local words</h1>
+        <button
+          className="pure-button pure-button-primary" type="submit"
+          onClick={this.getBlockchainWords}>
+          Get all words from Blockchain!</button>
         <p>Words count: {this.props.words.length}</p>
         {wordsList}
-        <p>All Blockchain Worlds</p>
-        <button
-          onClick={this.getBlockchainWords}>Get Blockchain Words</button>
       </div>
     )
   }

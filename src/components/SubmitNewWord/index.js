@@ -94,25 +94,37 @@ class SubmitNewWord extends Component {
   render(){
     return (
       <div className={styles}>
-        <p>SubmitNewWord</p>
-        <form onSubmit={this.dispatchAddWord}>
-          <input
-            type="text"
-            value={this.state.text}
-            onChange={this.handleChangeText}
-          />
-          <input
-            type="number"
-            value={this.state.size}
-            onChange={this.handleChangeSize}
-          />
-          <ChromePicker
-            disableAlpha={true}
-            color={this.state.color}
-            onChangeComplete={this.handleChangeColor}
-          />
-          <button type="submit">Add Word </button>
-        </form>
+        <h1>SubmitNewWord</h1>
+          <form onSubmit={this.dispatchAddWord}>
+            <div className="pure-g">
+              <div className="pure-u-1-3">
+                <input
+                  type="text"
+                  value={this.state.text}
+                  onChange={this.handleChangeText}
+                />
+              </div>
+              <div className="pure-u-1-3">
+                <input
+                  type="number"
+                  value={this.state.size}
+                  onChange={this.handleChangeSize}
+                />
+              </div>
+              <div className="pure-u-1-3">
+                <ChromePicker
+                  disableAlpha={true}
+                  color={this.state.color}
+                  onChangeComplete={this.handleChangeColor}
+                />
+              </div>
+            </div>
+            <button
+              className="pure-button pure-button-primary"
+              type="submit">
+              Add Word</button>
+          </form>
+
       </div>
     )
   }
