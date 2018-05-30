@@ -128,15 +128,22 @@ class AllWords extends Component {
     });
 
     return (
-      <div className={styles}>
-        <h1>All Local words</h1>
-        <button
-          className="pure-button pure-button-primary" type="submit"
-          onClick={this.getBlockchainWords}>
-          Get all words from Blockchain!</button>
-        <p>Words count: {this.props.words.length}</p>
-        {wordsList}
+      <div className="pure-g">
+        <div className="pure-u-1-1">
+          <div className={styles}>
+            {/* <p>Words count: {this.props.words.length}</p> */}
+            {wordsList}
+          </div>
+        </div>
+        <div className="pure-u-1-1">
+          <button
+            className="pure-button pure-button-primary" type="submit"
+            onClick={this.getBlockchainWords}>
+            Get all words from Blockchain!
+          </button>
+        </div>
       </div>
+
     )
   }
 
