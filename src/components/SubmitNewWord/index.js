@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { ChromePicker } from 'react-color';
+import { TwitterPicker } from 'react-color';
 // Import for web3
 import getWeb3 from './../../utils/getWeb3'
 import WordFactoryContract from './../../../build/contracts/WordFactory.json'
 
 // styles
-import {styles} from './styles.scss';
+import './styles.css';
 
 class SubmitNewWord extends Component {
   constructor(props){
@@ -14,12 +14,13 @@ class SubmitNewWord extends Component {
     // Setting default State
     // used only in the form
     this.state = {
-      text: 'Word',
+      text: '',
       color: '#4a90e2',
       size: 24,
       time: 0,
       account: 'me',
-      storageValue: 0
+      storageValue: 0,
+      colorPickerVisible: false
     }
 
     // Binding
@@ -27,6 +28,7 @@ class SubmitNewWord extends Component {
     this.handleChangeText = this.handleChangeText.bind(this);
     this.handleChangeSize = this.handleChangeSize.bind(this);
     this.handleChangeColor = this.handleChangeColor.bind(this);
+    this.toggleColorPicker = this.toggleColorPicker.bind(this);
   }
 
   componentWillMount() {
@@ -70,6 +72,12 @@ class SubmitNewWord extends Component {
       color: color.hex});
   }
 
+  toggleColorPicker(){
+    this.setState({
+      colorPickerVisible: !this.state.colorPickerVisible
+    })
+  }
+
   // dispatch the word
   dispatchAddWord(event){
     event.preventDefault();
@@ -93,38 +101,71 @@ class SubmitNewWord extends Component {
 
   render(){
     return (
-      <div className={styles}>
-        <h1>SubmitNewWord</h1>
-          <form onSubmit={this.dispatchAddWord}>
-            <div className="pure-g">
-              <div className="pure-u-1-3">
-                <input
-                  type="text"
-                  value={this.state.text}
-                  onChange={this.handleChangeText}
-                />
+      <div className="SubmitNewWord container">
+        <form onSubmit={this.dispatchAddWord}>
+          <div>
+            <div className="row">
+              <div className="col-12">
+                  <input
+                    className="form-control-lg form-control"
+                    type="text"
+                    placeholder="What do you want to say?"
+                    value={this.state.text}
+                    onChange={this.handleChangeText}
+                  />
+                  <br/>
               </div>
-              <div className="pure-u-1-3">
-                <input
-                  type="number"
-                  value={this.state.size}
-                  onChange={this.handleChangeSize}
-                />
+            </div>
+            <div className="row">
+              <div className="col-3" align="center">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text">Size</span>
+                  </div>
+                  <input
+                    placeholder="Font Size"
+                    step="1" min="0"
+                    className="form-control-lg form-control"
+                    type="number"
+                    value={this.state.size}
+                    onChange={this.handleChangeSize}
+                  />
+                </div>
               </div>
-              <div className="pure-u-1-3">
-                <ChromePicker
+              <div className="col-3" align="center">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span
+                      className="input-group-text"
+                      onClick={this.toggleColorPicker}
+                      >Color
+                    </span>
+                  </div>
+                  <input
+                    className="form-control-lg form-control"
+                    type="text"
+                    style={{backgroundColor: this.state.color}}
+                    color={this.state.color}
+                    onClick={this.toggleColorPicker}
+                  />
+                </div>
+                {this.state.colorPickerVisible && <TwitterPicker
                   disableAlpha={true}
                   color={this.state.color}
                   onChangeComplete={this.handleChangeColor}
-                />
+                  className="colorPicker"
+                />}
+              </div>
+              <div className="ColAddWordButton col-6">
+                <button
+                  type="submit"
+                  className="btn-lg addWordButton btn btn-primary"
+                  >Add Your Word
+                </button>
               </div>
             </div>
-            <button
-              className="pure-button pure-button-primary"
-              type="submit">
-              Add Word</button>
-          </form>
-
+          </div>
+        </form>
       </div>
     )
   }
