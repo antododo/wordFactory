@@ -143,7 +143,7 @@ class SubmitNewWord extends Component {
                   </div>
                   <input
                     className="form-control-lg form-control"
-                    type="text"
+                    type="button"
                     style={{backgroundColor: this.state.color}}
                     color={this.state.color}
                     onClick={this.toggleColorPicker}
