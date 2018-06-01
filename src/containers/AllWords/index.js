@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import getWeb3 from './../../utils/getWeb3'
 import WordFactoryContract from './../../../build/contracts/WordFactory.json'
 import { addWord, resetWord} from './actions';
+import { submitDone} from './../SubmitNewWord/actions'
 
 
 // styles
@@ -70,6 +71,13 @@ class AllWords extends Component {
     wordFactoryInstance.NewWord({},{fromBlock:'latest', toBlock: 'latest'}, (error,result)=>{
       if(!error){
         this.getBlockchainWords();
+        // When a new event with the same account is emit, the submit is done
+        // replace the spinner with the submit button
+        this.state.web3.eth.getAccounts((error, accounts)=>{
+          if(result.args.owner === accounts[0]){
+            this.props.dispatch(submitDone());
+          }
+        })
       }
       else {
        console.log('event error is : ')
@@ -186,7 +194,8 @@ class AllWords extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    words: selectWords(state.words,state.filters)
+    words: selectWords(state.words,state.filters),
+    submitingWord: state.submitingWord
   }
 }
 

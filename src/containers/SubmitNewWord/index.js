@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import { TwitterPicker } from 'react-color';
 // Import for web3
 import getWeb3 from './../../utils/getWeb3'
 import WordFactoryContract from './../../../build/contracts/WordFactory.json'
+
+//actions
+import {submitingWord} from './actions';
 
 // styles
 import './styles.css';
@@ -82,6 +86,10 @@ class SubmitNewWord extends Component {
   dispatchAddWord(event){
     event.preventDefault();
 
+
+    //When a word is dispatch, replace the button with the spinner
+    this.props.dispatch(submitingWord());
+
     // Web3
     var wordFactoryInstance;
     var account = this.state.account;
@@ -157,11 +165,13 @@ class SubmitNewWord extends Component {
                 />}
               </div>
               <div className="ColAddWordButton col-6">
-                <button
+                {this.props.submitingWord.submitingWord && <div className="lds-ring-SubmitNewWord"><div></div><div></div><div></div><div></div></div>
+                }
+                {!this.props.submitingWord.submitingWord && <button
                   type="submit"
                   className="btn-lg addWordButton btn btn-primary"
                   >Add Your Word
-                </button>
+                </button>}
               </div>
             </div>
           </div>
@@ -171,4 +181,10 @@ class SubmitNewWord extends Component {
   }
 }
 
-export default SubmitNewWord
+const mapStateToProps = (state) => {
+  return {
+    submitingWord: state.submitingWord
+  }
+}
+
+export default connect(mapStateToProps)(SubmitNewWord);

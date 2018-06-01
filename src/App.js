@@ -9,7 +9,7 @@ import './App.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import AllWords from './containers/AllWords'
-import SubmitNewWord from './components/SubmitNewWord'
+import SubmitNewWord from './containers/SubmitNewWord'
 import WordsFilters from './containers/WordsFilters'
 
 class App extends Component {
