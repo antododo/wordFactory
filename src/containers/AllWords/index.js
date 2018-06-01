@@ -98,36 +98,67 @@ class AllWords extends Component {
 
     var wordFactoryInstance;
 
-    // Declaring account in constructor and then accessing it as a var, resulting in a undefined account
-    //  It's better to get it before calling the contract
-    //var account = this.state.account; //
+    //------------- Function to get words only for current owner address ----------//
+    // // Declaring account in constructor and then accessing it as a var, resulting in a undefined account
+    // //  It's better to get it before calling the contract
+    // // var account = this.state.account; //
+    // this.state.web3.eth.getAccounts((error, accounts) => {
+    //   wordFactory.deployed().then((instance) => {
+    //     wordFactoryInstance = instance
+    //     return wordFactoryInstance.getWordByOwner.call(accounts[0])
+    //   }).then((ids) => {
+    //     // Get the ids from the contract.
+    //     // for each id, get word details
+    //     this.setState({
+    //       spinner: false
+    //     })
+    //     for(let id of ids){
+    //       getWordDetails(id.c[0])
+    //       .then((word)=>{
+    //         // Adding to redux store
+    //         this.props.dispatch(addWord({
+    //           owner: word[0],
+    //           text: word[1],
+    //           fontColor: word[2],
+    //           fontSize: word[3].c[0] + 'px',
+    //           time: word[4].c[0]
+    //         }))
+    //       })
+    //     }
+    //   })
+    //
+    //   function getWordDetails(id){
+    //       return wordFactoryInstance.words(id);
+    //   }
+    // })
+
+    //------------- Function to get all words ----------//
     this.state.web3.eth.getAccounts((error, accounts) => {
       wordFactory.deployed().then((instance) => {
         wordFactoryInstance = instance
-        return wordFactoryInstance.getWordByOwner.call(accounts[0])
-      }).then((ids) => {
-        // Get the ids from the contract.
-        // for each id, get word details
+        // hide the spinner
         this.setState({
           spinner: false
         })
-        for(let id of ids){
-          getWordDetails(id.c[0])
-          .then((word)=>{
-            // Adding to redux store
-            this.props.dispatch(addWord({
-              owner: word[0],
-              text: word[1],
-              fontColor: word[2],
-              fontSize: word[3].c[0] + 'px',
-              time: word[4].c[0]
-            }))
-          })
-        }
+        wordFactoryInstance.getLengthOfWords().then((result)=>{
+          for(let i = 0; i < result.c[0] ; i++){
+            getWordDetails(i)
+            .then((word)=>{
+              // Adding to redux store
+              this.props.dispatch(addWord({
+                owner: word[0],
+                text: word[1],
+                fontColor: word[2],
+                fontSize: word[3].c[0] + 'px',
+                time: word[4].c[0]
+              }))
+            })
+          }
+        })
       })
 
-      function getWordDetails(id){
-          return wordFactoryInstance.words(id);
+      function getWordDetails(i){
+          return wordFactoryInstance.words(i);
       }
     })
   }

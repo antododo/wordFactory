@@ -32,6 +32,10 @@ contract WordFactory is Ownable {
     OwnerWordCount[msg.sender]++;
   }
 
+  // Get length of words
+  function getLengthOfWords() public constant returns (uint count){
+    return words.length;
+  }
 
   // Get words by owner
   // Returning an array with words ID instead of an array of Word because
