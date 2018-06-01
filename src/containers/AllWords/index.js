@@ -6,7 +6,7 @@ import { addWord, resetWord} from './actions';
 
 
 // styles
-import {styles} from './styles.scss';
+import './styles.css';
 
 // Components
 import Word from './../../components/Word'
@@ -20,7 +20,8 @@ class AllWords extends Component {
     super(props);
 
     this.state = {
-      timer: 0
+      timer: 0,
+      spinner: true
     }
 
     // Binding
@@ -37,13 +38,17 @@ class AllWords extends Component {
         web3: results.web3
       })
 
-      this.state.web3.eth.getAccounts((error, accounts)=>{
-        this.setState({account: accounts[0]})
-      })
+      // Declaring account in constructor and then accessing it as a var, resulting in a undefined account
+      //  It's better to get it before calling the contract
+      // this.state.web3.eth.getAccounts((error, accounts)=>{
+      //   this.setState({account: accounts[0]})
+      // })
 
-      this.newWordListener();
+      this.newWordListener()
       // Refresh automatically the words because it's emitting an event as soon
       // as it's configured
+    }).then(()=>{
+      this.getBlockchainWords()
     })
     .catch(()=>{
       console.log('Error finding web3. - AllWords')
@@ -92,32 +97,39 @@ class AllWords extends Component {
     wordFactory.setProvider(this.state.web3.currentProvider);
 
     var wordFactoryInstance;
-    var account = this.state.account;
 
-    wordFactory.deployed().then((instance) => {
-      wordFactoryInstance = instance
-      return wordFactoryInstance.getWordByOwner.call(account)
-    }).then((ids) => {
-      // Get the ids from the contract.
-      // for each id, get word details
-      for(let id of ids){
-        getWordDetails(id.c[0])
-        .then((word)=>{
-          // Adding to redux store
-          this.props.dispatch(addWord({
-            owner: word[0],
-            text: word[1],
-            fontColor: word[2],
-            fontSize: word[3].c[0] + 'px',
-            time: word[4].c[0]
-          }))
+    // Declaring account in constructor and then accessing it as a var, resulting in a undefined account
+    //  It's better to get it before calling the contract
+    //var account = this.state.account; //
+    this.state.web3.eth.getAccounts((error, accounts) => {
+      wordFactory.deployed().then((instance) => {
+        wordFactoryInstance = instance
+        return wordFactoryInstance.getWordByOwner.call(accounts[0])
+      }).then((ids) => {
+        // Get the ids from the contract.
+        // for each id, get word details
+        this.setState({
+          spinner: false
         })
+        for(let id of ids){
+          getWordDetails(id.c[0])
+          .then((word)=>{
+            // Adding to redux store
+            this.props.dispatch(addWord({
+              owner: word[0],
+              text: word[1],
+              fontColor: word[2],
+              fontSize: word[3].c[0] + 'px',
+              time: word[4].c[0]
+            }))
+          })
+        }
+      })
+
+      function getWordDetails(id){
+          return wordFactoryInstance.words(id);
       }
     })
-
-    function getWordDetails(id){
-        return wordFactoryInstance.words(id);
-    }
   }
 
   render(){
@@ -128,20 +140,12 @@ class AllWords extends Component {
     });
 
     return (
-      <div className="pure-g">
-        <div className="pure-u-1-1">
-          <div className={styles}>
+      <div className="AllWord container fluid text-center">
             {/* <p>Words count: {this.props.words.length}</p> */}
+
+            {this.state.spinner && <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
+            }
             {wordsList}
-          </div>
-        </div>
-        <div className="pure-u-1-1">
-          <button
-            className="pure-button pure-button-primary" type="submit"
-            onClick={this.getBlockchainWords}>
-            Get all words from Blockchain!
-          </button>
-        </div>
       </div>
 
     )
