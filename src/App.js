@@ -11,6 +11,7 @@ import Footer from './components/Footer'
 import AllWords from './containers/AllWords'
 import SubmitNewWord from './containers/SubmitNewWord'
 import WordsFilters from './containers/WordsFilters'
+import CheckWeb3 from './containers/CheckWeb3'
 
 class App extends Component {
 
@@ -18,13 +19,12 @@ class App extends Component {
     return (
       <div className="App">
         <Header></Header>
+        <CheckWeb3></CheckWeb3>
         <main className="container">
-          <div className="pure-g">
-            <div className="pure-u-1-1">
-              <AllWords></AllWords>
-              <SubmitNewWord></SubmitNewWord>
-              <WordsFilters></WordsFilters>
-            </div>
+          <div>
+            <AllWords></AllWords>
+            <SubmitNewWord></SubmitNewWord>
+            <WordsFilters></WordsFilters>
           </div>
         </main>
         <Footer></Footer>
