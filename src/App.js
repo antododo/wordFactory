@@ -22,8 +22,8 @@ class App extends Component {
         <CheckWeb3></CheckWeb3>
         <main className="container">
           <div>
-            <AllWords></AllWords>
             <SubmitNewWord></SubmitNewWord>
+            <AllWords></AllWords>
             <WordsFilters></WordsFilters>
           </div>
         </main>
