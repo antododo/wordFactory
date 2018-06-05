@@ -5,7 +5,7 @@ class Explanation extends React.Component {
     return(
       <div className="alert alert-primary alert-dismissible fade show" role="alert">
         <h4 className="alert-heading">How does it work?</h4>
-        <p>Infinite Word Factory is a DApp project that let you write anything you want to the blockchain with custom size and color.</p>
+        <p>Infinite Word Factory is a DApp project that let you write any words want to the blockchain with custom size and color.</p>
         <p>All those words are store permanently on the Ethereum Rinkeby network.</p>
         <hr/>
         <p className="mb-0">
