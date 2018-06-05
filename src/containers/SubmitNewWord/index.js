@@ -132,7 +132,7 @@ class SubmitNewWord extends Component {
                   </div>
                   <input
                     placeholder="Font Size"
-                    step="1" min="0"
+                    step="1" min="0" max="60"
                     className="form-control-lg form-control"
                     type="number"
                     value={this.state.size}
