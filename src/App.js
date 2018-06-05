@@ -12,6 +12,7 @@ import AllWords from './containers/AllWords'
 import SubmitNewWord from './containers/SubmitNewWord'
 import WordsFilters from './containers/WordsFilters'
 import CheckWeb3 from './containers/CheckWeb3'
+import Explanation from './components/Explanation'
 
 class App extends Component {
 
@@ -20,6 +21,7 @@ class App extends Component {
       <div className="App main">
         <Header></Header>
         <CheckWeb3></CheckWeb3>
+        <Explanation></Explanation>
         <main className="container">
           <div>
             <SubmitNewWord></SubmitNewWord>

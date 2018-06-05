@@ -16,8 +16,9 @@ import { Provider }   from 'react-redux';
 import configureStore from './core/store/configureStore';
 import App            from './App';
 
-// Bootstrap Style
+// Bootstrap Style & JS
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.js';
 
 const store = configureStore();
 
