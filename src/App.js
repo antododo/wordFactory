@@ -17,7 +17,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App main">
         <Header></Header>
         <CheckWeb3></CheckWeb3>
         <main className="container">

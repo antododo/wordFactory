@@ -1,4 +1,8 @@
-/* PAGE */
+.main {
+  background-color: #f8f9fa;
+}
+
+/* PAGE
 
 body,
 .pure-g [class*=pure-u] {
@@ -34,7 +38,7 @@ code {
   border-color: #0c1a2b;
 }
 
-/* NAVBAR */
+/* NAVBAR
 
 .navbar {
   position: fixed;
@@ -66,3 +70,5 @@ code {
   height: 16px;
   margin-right: 10px;
 }
+
+*/

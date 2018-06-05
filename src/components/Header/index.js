@@ -1,14 +1,12 @@
 import React from 'react';
 
+import './styles.css'
+
 const Header = function(props){
   return (
-    <nav className="navbar pure-menu pure-menu-horizontal">
-        <a
-          href="#"
-          className="pure-menu-heading pure-menu-link">
-          Infinite Word Factory</a>
+    <nav className="navbar navbar-dark bg-dark box-shadow" >
+      <span className="navbar-brand mb-0 h1 text-white">Infinite Word Factory</span>
     </nav>
-
   )
 }
 

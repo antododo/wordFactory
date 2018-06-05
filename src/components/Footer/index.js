@@ -1,29 +1,13 @@
 import React from 'react';
 
+import './styles.css'
+
 const Footer = function(props){
   return (
-    <nav className="navbar pure-menu pure-menu-horizontal">
-      <div className="pure-g">
-        <div className="pure-u-1-3">
-          <span
-            className="pure-menu-heading">
-            Footer</span>
-        </div>
-        <div className="pure-u-1-3">
-          <a
-            href="https://github.com/pl4ym0re"
-            target="_blank"
-            className="pure-menu-heading pure-menu-link">
-            Github</a>
-        </div>
-        <div className="pure-u-1-3">
-          <a
-            href="https://about.me/antoine.domergue"
-            target="_blank"
-            className="pure-menu-heading pure-menu-link">
-            About me</a>
-        </div>
-      </div>
+    <nav className="footer nav nav-pills nav-fill">
+      <a className="nav-item nav-link text-muted" href="https://github.com/pl4ym0re" target="_blank">Github</a>
+      <a className="nav-item nav-link text-muted" href="https://about.me/antoine.domergue" target="_blank">About me</a>
+      <a className="nav-item nav-link text-muted" href="https://www.linkedin.com/in/antoinedomergue" target="_blank">Linkedin</a>
     </nav>
   )
 }
