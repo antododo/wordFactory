@@ -23,6 +23,7 @@ class WordsFilters extends React.Component {
     this.handleChangeFilterSize = this.handleChangeFilterSize.bind(this);
     this.handleChangeFilterColor = this.handleChangeFilterColor.bind(this);
     this.toggleColorPicker = this.toggleColorPicker.bind(this);
+    this.resetFilters = this.resetFilters.bind(this);
   }
 
 
@@ -49,6 +50,18 @@ class WordsFilters extends React.Component {
     })
   }
 
+  resetFilters(){
+    this.setState({
+      text: '',
+      size: 24,
+      color: '',
+      colorPickerVisible: false
+    })
+    this.props.dispatch(setTextFilter(''));
+    this.props.dispatch(setColorFilter(''));
+    this.props.dispatch(setSizeFilter(''));
+  }
+
   render(){
     return(
       <div className="Filters container">
@@ -73,7 +86,7 @@ class WordsFilters extends React.Component {
               />
             </div>
           </div>
-          <div className="col-3" align="center">
+          <div className="col-2" align="center">
             <div className="input-group">
               <div className="input-group-prepend">
                 <span
@@ -112,7 +125,13 @@ class WordsFilters extends React.Component {
               />
             </div>
           </div>
-          <div className="col-1"></div>
+          <div className="col-1">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={this.resetFilters}
+              >Clear</button>
+          </div>
         </div>
       </div>
     )
