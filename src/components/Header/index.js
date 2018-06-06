@@ -10,7 +10,7 @@ const Header = function(props){
       <span>How Does it work?</span>
 </button>
 
-<div class="collapse navbar-collapse text-white text-right" id="navbarNav">
+<div className="collapse navbar-collapse text-white text-right" id="navbarNav">
   <hr/>
   <p>Infinite Word Factory is a DApp project that let you write any words want to the blockchain with custom size and color.</p>
   <p>All those words are store permanently on the Ethereum Rinkeby network.</p>
